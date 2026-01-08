@@ -69,27 +69,27 @@ This project implements a complete database schema with 7 tables and 7 relations
 
 ## Tables
 
-| # | Table | Primary Key | Description |
-|---|-------|-------------|-------------|
-| 1 | `product` | prodid | Product catalog |
-| 2 | `Invoice` | invocid | Invoice records |
-| 3 | `customer` | custid | Customer information |
-| 4 | `order` | orderid | Customer orders |
-| 5 | `Stock` | stockid | Inventory/stock levels |
-| 6 | `Autoriz_staff` | id | Authorized staff members |
-| 7 | `Delivery` | delvid | Delivery records |
+| #   | Table           | Primary Key | Description              |
+| --- | --------------- | ----------- | ------------------------ |
+| 1   | `product`       | prodid      | Product catalog          |
+| 2   | `Invoice`       | invocid     | Invoice records          |
+| 3   | `customer`      | custid      | Customer information     |
+| 4   | `order`         | orderid     | Customer orders          |
+| 5   | `Stock`         | stockid     | Inventory/stock levels   |
+| 6   | `Autoriz_staff` | id          | Authorized staff members |
+| 7   | `Delivery`      | delvid      | Delivery records         |
 
 ## Relationships
 
-| # | Name | From | To | Cardinality | Foreign Key |
-|---|------|------|-----|-------------|-------------|
-| 1 | has | product | Stock | 1:N | `Stock.prodid` |
-| 2 | authorize | product | Autoriz_staff | 1:N | `Autoriz_staff.prodid` |
-| 3 | authorize | Autoriz_staff | Delivery | 1:N | `Delivery.staffid` |
-| 4 | autoriz staff | product | Delivery | 1:N | `Delivery.prodid` |
-| 5 | pay | Invoice | customer | 1:N | `customer.invocid` |
-| 6 | make | customer | order | 1:N | `order.custid` |
-| 7 | contains | order | Delivery | 1:N | `Delivery.orderid` |
+| #   | Name          | From          | To            | Cardinality | Foreign Key            |
+| --- | ------------- | ------------- | ------------- | ----------- | ---------------------- |
+| 1   | has           | product       | Stock         | 1:N         | `Stock.prodid`         |
+| 2   | authorize     | product       | Autoriz_staff | 1:N         | `Autoriz_staff.prodid` |
+| 3   | authorize     | Autoriz_staff | Delivery      | 1:N         | `Delivery.staffid`     |
+| 4   | autoriz staff | product       | Delivery      | 1:N         | `Delivery.prodid`      |
+| 5   | pay           | Invoice       | customer      | 1:N         | `customer.invocid`     |
+| 6   | make          | customer      | order         | 1:N         | `order.custid`         |
+| 7   | contains      | order         | Delivery      | 1:N         | `Delivery.orderid`     |
 
 ## Prerequisites
 
@@ -133,14 +133,14 @@ cp .env.example .env
 
 ## Available Commands
 
-| Command | Description |
-|---------|-------------|
-| `./db.sh start` | Start PostgreSQL database container |
-| `./db.sh open` | Open interactive psql shell |
-| `./db.sh run <file.sql>` | Execute a SQL file |
-| `./db.sh status` | Show database container status |
-| `./db.sh close` | Stop and remove database container |
-| `./er_diagram.sh` | Display ASCII ER diagram |
+| Command                  | Description                         |
+| ------------------------ | ----------------------------------- |
+| `./db.sh start`          | Start PostgreSQL database container |
+| `./db.sh open`           | Open interactive psql shell         |
+| `./db.sh run <file.sql>` | Execute a SQL file                  |
+| `./db.sh status`         | Show database container status      |
+| `./db.sh close`          | Stop and remove database container  |
+| `./er_diagram.sh`        | Display ASCII ER diagram            |
 
 ## Project Files
 
@@ -188,22 +188,25 @@ psql postgresql://app_user:secret123@localhost:5433/semi_exam_db
 Each table contains 3 sample records:
 
 ### Products
-| ID | Name | Category | Price |
-|----|------|----------|-------|
-| 1 | Wireless Headphones | Electronics | $299.99 |
-| 2 | Smartphone Pro | Electronics | $599.99 |
-| 3 | Phone Case Premium | Accessories | $49.99 |
+
+| ID  | Name                | Category    | Price   |
+| --- | ------------------- | ----------- | ------- |
+| 1   | Wireless Headphones | Electronics | $299.99 |
+| 2   | Smartphone Pro      | Electronics | $599.99 |
+| 3   | Phone Case Premium  | Accessories | $49.99  |
 
 ### Customers
-| ID | Username | Email |
-|----|----------|-------|
-| 1 | john_doe | john.doe@email.com |
-| 2 | jane_smith | jane.smith@email.com |
-| 3 | bob_wilson | bob.wilson@email.com |
+
+| ID  | Username   | Email                |
+| --- | ---------- | -------------------- |
+| 1   | john_doe   | john.doe@email.com   |
+| 2   | jane_smith | jane.smith@email.com |
+| 3   | bob_wilson | bob.wilson@email.com |
 
 ## SQL Examples
 
 ### Select all products with stock
+
 ```sql
 SELECT p.prodname, p.price, s.quantty
 FROM product p
@@ -211,6 +214,7 @@ JOIN Stock s ON p.prodid = s.prodid;
 ```
 
 ### Get customer orders with delivery info
+
 ```sql
 SELECT c.usrname, o.orderdate, d.date AS delivery_date
 FROM customer c
@@ -219,6 +223,7 @@ JOIN Delivery d ON o.orderid = d.orderid;
 ```
 
 ### View staff authorized for products
+
 ```sql
 SELECT p.prodname, a.name AS staff_name, a.compname
 FROM product p
@@ -234,7 +239,3 @@ JOIN Autoriz_staff a ON p.prodid = a.prodid;
 # Remove all data (including volume)
 docker compose down -v
 ```
-
-## License
-
-This project is for educational purposes (Semi-Exam).
